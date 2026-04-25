@@ -61,7 +61,7 @@
 
     /* Screenshots */
     .screenshot-grid { display: grid; gap: 1.25rem; }
-    .screenshot-item { }
+    .screenshot-item { display: flex; flex-direction: column; }
     .screenshot-label {
       font-size: 0.8rem;
       color: #8b949e;
@@ -69,15 +69,48 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
       font-weight: 600;
+      min-height: 2.4rem;          /* keeps labels same height so images align */
+      display: flex;
+      align-items: flex-end;
     }
     .screenshot-item img {
       width: 100%;
       border-radius: 8px;
       border: 1px solid #30363d;
       display: block;
+      cursor: zoom-in;
+      transition: border-color 0.15s;
     }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .screenshot-item img:hover { border-color: #58a6ff; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
     @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* Lightbox */
+    .lb-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      cursor: zoom-out;
+    }
+    .lb-overlay.open { display: flex; }
+    .lb-overlay img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      cursor: default;
+    }
+    .lb-close {
+      position: fixed; top: 1.25rem; right: 1.5rem;
+      color: #8b949e; font-size: 1.5rem; cursor: pointer;
+      background: none; border: none; line-height: 1;
+    }
+    .lb-close:hover { color: #e6edf3; }
 
     /* Stack table */
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -176,11 +209,11 @@
 
       <div class="two-col">
         <div class="screenshot-item">
-          <div class="screenshot-label">Simulator — synthetic, historical demo, real historical modes</div>
+          <div class="screenshot-label">Simulator — 3 backtesting modes</div>
           <img src="screenshots/simulator.png" alt="Simulator" />
         </div>
         <div class="screenshot-item">
-          <div class="screenshot-label">System — all data sources active</div>
+          <div class="screenshot-label">System — live data sources</div>
           <img src="screenshots/system.png" alt="System" />
         </div>
       </div>
@@ -229,5 +262,29 @@
   <a href="https://github.com/Bernaljp/bet2point0-showcase">GitHub</a>
 </footer>
 
+<!-- Lightbox -->
+<div class="lb-overlay" id="lb" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="Close">&#x2715;</button>
+  <img id="lb-img" src="" alt="" />
+</div>
+
+<script>
+  const overlay = document.getElementById('lb');
+  const lbImg   = document.getElementById('lb-img');
+
+  document.querySelectorAll('.screenshot-item img').forEach(img => {
+    img.addEventListener('click', () => {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      overlay.classList.add('open');
+    });
+  });
+
+  function close() { overlay.classList.remove('open'); lbImg.src = ''; }
+
+  document.getElementById('lb-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+</script>
 </body>
 </html>
