@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bet2.0 — Sports Betting Anomaly Detection</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.6;
+    }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      border-bottom: 1px solid #30363d;
+      padding: 2.5rem 0 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.5px; }
+    header p  { margin-top: 0.6rem; color: #8b949e; font-size: 1.05rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .badge-row { margin-top: 1.2rem; display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
+    .badge {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+    .badge.green { color: #3fb950; border-color: #3fb950; }
+
+    main { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+    .section { margin-bottom: 3.5rem; }
+    .section h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #8b949e;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #21262d;
+    }
+
+    /* How it works */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .step {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1.25rem 1.25rem 1rem;
+    }
+    .step-num { font-size: 0.75rem; color: #8b949e; font-weight: 600; margin-bottom: 0.4rem; text-transform: uppercase; }
+    .step h3 { font-size: 0.95rem; font-weight: 600; color: #e6edf3; margin-bottom: 0.4rem; }
+    .step p  { font-size: 0.85rem; color: #8b949e; }
+
+    /* Screenshots */
+    .screenshot-grid { display: grid; gap: 1.25rem; }
+    .screenshot-item { }
+    .screenshot-label {
+      font-size: 0.8rem;
+      color: #8b949e;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .screenshot-item img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+      display: block;
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* Stack table */
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th { text-align: left; color: #8b949e; font-weight: 600; padding: 0.5rem 0.75rem; border-bottom: 1px solid #21262d; }
+    td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #21262d; color: #e6edf3; }
+    td:first-child { color: #8b949e; width: 140px; }
+    tr:last-child td { border-bottom: none; }
+    .tag {
+      display: inline-block;
+      background: #1f2d3d;
+      border: 1px solid #1f6feb;
+      border-radius: 4px;
+      padding: 0.1rem 0.45rem;
+      font-size: 0.75rem;
+      color: #58a6ff;
+      margin: 0 2px 2px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid #21262d;
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Bet2.0</h1>
+  <p>Sports betting anomaly detection — ML pipeline on live odds with real-time WebSocket dashboard and AI explanations via Claude.</p>
+  <div class="badge-row">
+    <span class="badge green">FastAPI</span>
+    <span class="badge green">Next.js 15</span>
+    <span class="badge green">Isolation Forest</span>
+    <span class="badge green">Bayesian Changepoint</span>
+    <span class="badge green">Claude API</span>
+    <span class="badge green">TimescaleDB</span>
+    <span class="badge">Code: private</span>
+  </div>
+</header>
+
+<main>
+
+  <section class="section">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Step 1</div>
+        <h3>Ingest live odds</h3>
+        <p>Polls The Odds API every 5 minutes across EPL, Champions League, and NBA. Stores all snapshots in TimescaleDB.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 2</div>
+        <h3>Detect anomalies</h3>
+        <p>Isolation Forest scores each movement; Bayesian changepoint confirms structural breaks. Correlated with live match events within a 5-minute window.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 3</div>
+        <h3>Explain with Claude</h3>
+        <p>Claude (Anthropic API) generates a plain-language summary of each detection — what moved, why it might be unusual, what to check.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 4</div>
+        <h3>Size positions</h3>
+        <p>Half-Kelly bet sizing with edge calculations. Portfolio tracks open positions and resolves outcomes automatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Screenshots</h2>
+
+    <div class="screenshot-grid">
+      <div class="screenshot-item">
+        <div class="screenshot-label">Dashboard — 73 tracked matches, 3 live, 17 active alerts</div>
+        <img src="screenshots/dashboard.png" alt="Dashboard" />
+      </div>
+
+      <div class="two-col">
+        <div class="screenshot-item">
+          <div class="screenshot-label">Anomaly Feed — scored detections</div>
+          <img src="screenshots/anomalies.png" alt="Anomaly Feed" />
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-label">Portfolio — Kelly-sized positions</div>
+          <img src="screenshots/portfolio.png" alt="Portfolio" />
+        </div>
+      </div>
+
+      <div class="screenshot-item">
+        <div class="screenshot-label">Matches — real EPL / Champions League / NBA with live best odds</div>
+        <img src="screenshots/matches.png" alt="Matches" />
+      </div>
+
+      <div class="two-col">
+        <div class="screenshot-item">
+          <div class="screenshot-label">Simulator — synthetic, historical demo, real historical modes</div>
+          <img src="screenshots/simulator.png" alt="Simulator" />
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-label">System — all data sources active</div>
+          <img src="screenshots/system.png" alt="System" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Tech stack</h2>
+    <table>
+      <tr><th>Layer</th><th>Stack</th></tr>
+      <tr><td>Backend</td><td>
+        <span class="tag">FastAPI</span>
+        <span class="tag">Python 3.11</span>
+        <span class="tag">SQLModel</span>
+        <span class="tag">asyncpg</span>
+        <span class="tag">APScheduler</span>
+      </td></tr>
+      <tr><td>ML</td><td>
+        <span class="tag">scikit-learn (Isolation Forest)</span>
+        <span class="tag">SciPy (Bayesian changepoint)</span>
+      </td></tr>
+      <tr><td>Database</td><td>
+        <span class="tag">PostgreSQL 16</span>
+        <span class="tag">TimescaleDB</span>
+      </td></tr>
+      <tr><td>Frontend</td><td>
+        <span class="tag">Next.js 15</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Tailwind CSS</span>
+        <span class="tag">Recharts</span>
+        <span class="tag">WebSocket</span>
+      </td></tr>
+      <tr><td>AI</td><td>
+        <span class="tag">Claude API (Anthropic)</span>
+      </td></tr>
+      <tr><td>Infra</td><td>
+        <span class="tag">Docker Compose</span>
+      </td></tr>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  Built by <a href="https://github.com/Bernaljp">Juan Pablo Bernal</a> &nbsp;·&nbsp;
+  <a href="https://github.com/Bernaljp/bet2point0-showcase">GitHub</a>
+</footer>
+
+</body>
+</html>
